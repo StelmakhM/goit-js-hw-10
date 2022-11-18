@@ -45,6 +45,7 @@ function inputHandler(e) {
         });
 }
 
+
 function createCountriesList(countries) {
     refs.countriesList.innerHTML = countriesListMarkUp(countries);
 };
