@@ -16,29 +16,26 @@ refs.input.addEventListener('input', debounce(inputHandler, DEBOUNCE_DELAY));
 
 function inputHandler(e) {
     const inputValue = e.target.value.trim();
+    clearMarkUp();
     if (!inputValue) {
-        clearMarkUp();
         return;
     }
 
     fetchCountries(inputValue)
         .then(countries => {
             if (countries.length > 10) {
-                clearMarkUp();
                 Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             }
             return countries;
         })
         .then(countries => {
             if (countries.length >= 2 && countries.length <= 10) {
-                clearMarkUp();
                 createCountriesList(countries);
             }
             return countries;
         })
         .then(countries => {
             if (countries.length === 1) {
-                clearMarkUp();
                 createCountryInfo(countries);
             }
         })
@@ -49,13 +46,11 @@ function inputHandler(e) {
 }
 
 function createCountriesList(countries) {
-    const markUp = countries.map(countriesListMarkUp);
-    refs.countriesList.innerHTML = markUp.join('');
+    refs.countriesList.innerHTML = countriesListMarkUp(countries);
 };
 
 function createCountryInfo(countries) {
-    const markUp = countries.map(countryInfoMarkUp);
-    refs.countryInfo.innerHTML = markUp.join('');
+    refs.countryInfo.innerHTML = countryInfoMarkUp(countries);
 }
 
 function clearMarkUp() {
